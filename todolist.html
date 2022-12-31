@@ -54,26 +54,34 @@
         }
       }
 
+      function addTodoList(todo) {
+        const tr = document.createElement("tr");
+        const tdButton = document.createElement("td");
+        tr.appendChild(tdButton);
+
+        const buttonDone = document.createElement("input");
+        buttonDone.type = "button";
+        buttonDone.value = "Done";
+        tdButton.appendChild(buttonDone);
+
+        const tdTodo = document.createElement("td");
+        tdTodo.textContent = todo;
+        tr.appendChild(tdTodo);
+
+        const todolistBody = document.getElementById("todoListBody");
+        todolistBody.appendChild(tr);
+      }
+
       function displayTodoList() {
         clearTodoList();
         for (let i = 0; i < todolist.length; i++) {
           const todo = todolist[i];
 
-          const tr = document.createElement("tr");
-          const tdButton = document.createElement("td");
-          tr.appendChild(tdButton);
+          const searchText = document.getElementById("search").value.toLowerCase();
 
-          const buttonDone = document.createElement("input");
-          buttonDone.type = "button";
-          buttonDone.value = "Done";
-          tdButton.appendChild(buttonDone);
-
-          const tdTodo = document.createElement("td");
-          tdTodo.textContent = todo;
-          tr.appendChild(tdTodo);
-
-          const todolistBody = document.getElementById("todoListBody");
-          todolistBody.appendChild(tr);
+          if (todo.toLowerCase().includes(searchText)) {
+            addTodoList(todo);
+          }
         }
       }
 
@@ -85,7 +93,15 @@
 
         document.forms["todoForm"].reset();
 
-        console.info(todolist);
+        // console.info(todolist);
+        displayTodoList();
+      };
+
+      const searchInput = document.getElementById("search");
+      searchInput.onkeyup = function () {
+        displayTodoList();
+      };
+      searchInput.onkeydown = function () {
         displayTodoList();
       };
 
